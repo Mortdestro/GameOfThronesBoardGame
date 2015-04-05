@@ -6,14 +6,14 @@ public class NumPlayersTextController : MonoBehaviour {
 
     public Text text;
     public GameData gameData;
-    private PlayerManager playerManager;
+    private AssignmentManager assignmentManager;
 
     void Start() {
-        playerManager = gameData.GetPlayerManager();
+        assignmentManager = gameData.GetAssignmentManager();
     }
 
     // Update is called once per frame
     void Update() {
-        text.text = playerManager.GetNumPlayers() + " Players";
+        text.text = assignmentManager.GetNumPlayers() + " Players";
     }
 }
