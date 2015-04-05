@@ -40,8 +40,7 @@ public class HouseManager {
         return list.Count;
     }
 
-    public House RandomHouse()
-    {
+    public House RandomHouse() {
         return list[BARATHEON];
     }
 }
