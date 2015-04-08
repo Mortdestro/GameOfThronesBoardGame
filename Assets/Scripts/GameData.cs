@@ -14,20 +14,7 @@ public class GameData : MonoBehaviour {
     void Start() {
         this.playerDict = new Dictionary<string, Player>();
         this.houseDict = new Dictionary<string, House>();
-    }
-
-    void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
-        Dictionary<string, Player> playerDict;
-        Dictionary<string, House> houseDict;
-
-        if (stream.isWriting) {
-            playerDict = this.playerDict;
-            stream.Serialize(ref playerDict);
-        }
-        else {
-            stream.Serialize(ref playerDict);
-            this.playerDict = playerDict;
-        }
+        DontDestroyOnLoad(this);
     }
 
     public void InitializeHouses() {
@@ -78,10 +65,8 @@ public class GameData : MonoBehaviour {
         return newHouse;
     }
 
-    public Player AddPlayer(string name) {
-        Player newPlayer = new Player(name);
-        playerDict.Add(name, newPlayer);
-        return newPlayer;
+    public void AddPlayer(Player player) {
+        playerDict.Add(player.name, player);
     }
 
     public Player GetPlayerByHouse(House house) {

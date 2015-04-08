@@ -4,14 +4,14 @@ using UnityEngine.UI;
 
 public class NumPlayersTextController : MonoBehaviour {
 
-    public Text text;
-    public GameData gameData;
+    public PlayerData playerData;
 
     void Start() {
     }
 
     // Update is called once per frame
     void Update() {
-        text.text = gameData.GetNumPlayers() + " Players";
+        if (playerData.GetPlayer() != null)
+            this.GetComponent<Text>().text = playerData.GetPlayer().name;
     }
 }

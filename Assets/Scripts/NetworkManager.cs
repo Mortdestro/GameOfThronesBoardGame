@@ -3,17 +3,27 @@ using System.Collections;
 
 public class NetworkManager : MonoBehaviour {
     public GameData gameData;
+    public PlayerData playerData;
 
     private const string TYPE_NAME = "GameOfThronesBoardGame";
     private const string GAME_NAME = "The Game";
 
     private HostData[] hostList;
 
+    void Start() {
+        DontDestroyOnLoad(this);
+    }
+
     public void StartServer() {
         if (!Network.isClient && !Network.isServer) {
             Network.InitializeServer(gameData.maxPlayers, 25000, !Network.HavePublicAddress());
             MasterServer.RegisterHost(TYPE_NAME, GAME_NAME);
         }
+        gameData.AddPlayer(playerData.GetPlayer());
+    }
+
+    [RPC] void AddPlayer(string name) {
+        gameData.AddPlayer(new Player(name));
     }
 
     void OnServerInitialized() {
@@ -35,6 +45,7 @@ public class NetworkManager : MonoBehaviour {
 
     void OnConnectedToServer() {
         Debug.Log("Server Joined");
+        GetComponent<NetworkView>().RPC("AddPlayer", RPCMode.Server, playerData.GetPlayer().name);
     }
 
     void OnGUI() {
